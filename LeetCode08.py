@@ -90,18 +90,28 @@ Constraints:
     s consists of English letters (lower-case and upper-case), digits (0-9), ' ', '+', '-', and '.'.'''
 
 class Solution(object):
-    def reverse(self, x):
-        rev = ""
-        int_max = 2**31 -1
-        int_min = -2**31
-        sign = -1 if x<0 else 1
-        x = str(abs(x))
-        i = len(x) - 1
-        while i>=0:
-            rev = rev + x[i]
-            i-=1
-        rev = int(rev)
-        rev *= sign
-        if rev > int_max or rev < int_min:
+    def myAtoi(self, s):
+        s = s.lstrip()
+        if not s:
             return 0
-        return rev
+
+        i = 0
+        sign = 1
+        num = 0
+
+        if s[i] in "+-":
+            sign = -1 if s[i] == "-" else 1
+            i += 1
+
+        while i < len(s) and s[i].isdigit():
+            num = num * 10 + int(s[i])
+            i += 1
+
+        num *= sign
+
+        if num > 2**31 - 1:
+            return 2**31 - 1
+        if num < -2**31:
+            return -2**31
+
+        return num
